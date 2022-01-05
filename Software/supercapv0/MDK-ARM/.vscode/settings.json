@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "buckboostcontrol.h": "c",
+        "supercap_config.h": "c"
+    }
+}
