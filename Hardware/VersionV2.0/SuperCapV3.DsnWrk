@@ -1,0 +1,6 @@
+[ProjectGroup]
+Version=1.0
+[Project1]
+ProjectPath=SuperCapV3Control.PrjPCB
+[Project2]
+ProjectPath=SuperCapV3Power.PrjPCB
