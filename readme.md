@@ -85,12 +85,6 @@ Email：lds947003754@outlook.com
 
 ![缓冲能量环](Images/缓冲能量环.jpg)
 
-![输出设置](Images/输出设置.jpg)
-
-![电压电流环](Images/电压电流环.jpg)
-
-![功率环](Images/功率环.jpg)
-
 #### 4.2.2功率环
 
 ![功率环](Images/功率环.jpg)
