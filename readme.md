@@ -94,3 +94,71 @@ Email：lds947003754@outlook.com
 ### 4.3输出设置
 
 ![输出设置](Images/输出设置.jpg)
+
+## 5.NMOS挂载情况
+
+```
+/****************************
+24V                 CAP
+Q1------|     |------Q3
+        |-----|
+        |  L  |
+        |-----|
+Q2------|     |------Q4
+*****************************/
+#define Q1_PWMControl_TIM     htim1
+#define Q1_PWMControl_TIM_CH  TIM_CHANNEL_1
+#define Q2_PWMControl_TIM     htim1
+#define Q2_PWMControl_TIM_CH  TIM_CHANNEL_2
+#define Q3_PWMControl_TIM     htim1
+#define Q3_PWMControl_TIM_CH  TIM_CHANNEL_3
+#define Q4_PWMControl_TIM     htim1
+#define Q4_PWMControl_TIM_CH  TIM_CHANNEL_4
+```
+
+## 6.BuckBoost控制 C语言结构体
+
+```
+typedef struct
+{
+  uint8_t data_update;    //1更新
+  uint8_t buckboostmode;  //0为初始关闭模式 1为降压模式 2为升压模式
+  uint8_t loop_mode;      //环路模式0：cv 1：cc 2：cp
+  float efficiency;       //总效率 ，热耗散
+  uint8_t power_dir;      //能量方向0正向充电1反向放电
+  uint16_t max_power_lim; //裁判系统最大功率
+  float power_pass;       //  裁判系统花去功率板与板子测量误差经过pid结果用于传递
+  uint8_t referee_power;
+  uint8_t referee_buff;
+  float powerbuffer ;     //缓冲能量
+    
+  PID_Regulator_t BuckBoostLoopCcompare_PID;//输出电流环
+  PID_Regulator_t BuckBoostLoopVcompare_PID;//输出电压环
+  PID_Regulator_t Robot_Buffer_PID;//缓冲能量环
+  PID_Regulator_t Robot_Power_PID;//功率环
+    
+  
+  double BUCKBOOST_CAP_C;
+  double BUCKBOOST_CAP_V;
+  double BUCKBOOST_IN_C;
+  double BUCKBOOST_IN_V;
+  double BUCKBOOST_OUT_C;
+    
+  double BUCKBOOST_NEED_C;
+        
+  float BUCKBOOST_IN_P;
+  float BUCKBOOST_OUT_P;
+  float BUCKBOOST_CAP_P;
+  float BUCKBOOST_NEED_P;
+  
+  float charge_power;//功率环计算OUT
+  float charge_current;// = charge_power/inV
+  float cloop;
+  float vloop;
+  float ratio_pass;//计算升降压比例
+
+  uint8_t POWER_LIMIT_MODE;//超级电容功率限制模式 0使用电容 1不使用电容
+    
+} BUCKBOOST_STRUCT;
+```
+
