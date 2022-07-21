@@ -1,0 +1,17 @@
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\keil\core\ARM\ARMCC\Bin'
+Build target 'supercapv0'
+compiling main.c...
+../Core/Src/main.c(175): warning:  #223-D: function "printf" declared implicitly
+        printf("VIN  is %.4f V\r\n",in_v.real_valu1);
+../Core/Src/main.c: 1 warning, 0 errors
+compiling BuckboostControl.c...
+..\APP\BuckboostControl\BuckboostControl.c(77): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          CompareValue = 0.96 * ratio * 1000;
+..\APP\BuckboostControl\BuckboostControl.c(79): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+          buck_duty = 0.96 * ratio;
+..\APP\BuckboostControl\BuckboostControl.c: 2 warnings, 0 errors
+linking...
+Program Size: Code=18208 RO-data=456 RW-data=28 ZI-data=2716  
+FromELF: creating hex file...
+"SuperCapV0\SuperCapV0.axf" - 0 Error(s), 3 Warning(s).
+Build Time Elapsed:  00:00:05
