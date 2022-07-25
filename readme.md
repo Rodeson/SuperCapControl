@@ -1,10 +1,10 @@
-超级电容
+README For SuperCapControl
+
+超级电容 ultracapacitor
 
 @Rodeson
 
 Email：lds947003754@outlook.com
-
-
 
 ## 0.超级电容图片说明
 
@@ -29,7 +29,7 @@ Email：lds947003754@outlook.com
 
 ## 2.硬件设计
 
-2.1 采样电路
+### 2.1 采样电路
 
 2.1.1接口采样电路
 
@@ -43,11 +43,11 @@ Email：lds947003754@outlook.com
 
 ![](Images/电压测量运放电路设计.png)
 
-2.2 BuckBoost电路
+### 2.2 BuckBoost电路
 
 ![](Images/4BuckBoost驱动电路.png)
 
-2.3供电路径
+### 2.3供电路径
 
 ![](Images/超级电容供电关系.png)
 
@@ -58,8 +58,6 @@ Email：lds947003754@outlook.com
 ## 4.超级电容buckboost模块控制逻辑
 
 ### 4.1采样数据计算
-
-![采样数据计算](D:\Desktop\采样数据计算.jpg)
 
 ```c
     battery_in.I_now = buckboost_control.BUCKBOOST_IN_C;
@@ -99,7 +97,7 @@ Email：lds947003754@outlook.com
 
 ## 5.NMOS挂载情况
 
-```
+```c
 /****************************
 24V                 CAP
 Q1------|     |------Q3
@@ -120,7 +118,7 @@ Q2------|     |------Q4
 
 ## 6.BuckBoost控制 C语言结构体
 
-```
+```c
 typedef struct
 {
   uint8_t data_update;    //1更新
@@ -162,5 +160,63 @@ typedef struct
   uint8_t POWER_LIMIT_MODE;//超级电容功率限制模式 0使用电容 1不使用电容
     
 } BUCKBOOST_STRUCT;
+```
+
+## 7.超级电容模块通信协议
+
+### 7.1CAN 发送程序参考
+
+发送函数
+
+```c
+void supercap_sendmessage(uint16_t Vcap)
+{
+		static uint8_t supercap_tx_data[2];
+	
+		Tx1Message.StdId=0x211;
+		Tx1Message.IDE =CAN_ID_STD;
+		Tx1Message.RTR=CAN_RTR_DATA;
+		Tx1Message.DLC =0x08;
+		memcpy (supercap_tx_data, &Vcap, sizeof(Vcap));
+		HAL_CAN_AddTxMessage(&hcan1, &Tx1Message, supercap_tx_data ,&pTxMailbox);
+}
+```
+
+实例应用（发送超级电容电压数据 由于是无符号16位整数 因此需要将浮点数乘以1000并发送整数）
+
+```c
+supercap_sendmessage(buckboost_control.BUCKBOOST_CAP_V * 1000);
+```
+
+### 7.2CAN 接收程序参考
+
+接收函数（接收裁判系统底盘参数 为当前等级底盘最大功率及实时缓冲能量）
+
+```c
+void get_supercap_measure(BUCKBOOST_STRUCT *cap, uint8_t aData[])
+{
+    cap -> referee_power  = aData[0];
+    cap -> referee_buff  = aData[1];
+}
+```
+
+实例应用（该函数 扔在can线接收中断里面）
+
+```c
+void CAN1_Getdata(CAN_RxHeaderTypeDef *pHeader,uint8_t aData[])
+{
+	switch (pHeader->StdId)
+	{
+		case 0x0210:
+		{
+			//得到超级电容数据
+			get_supercap_measure(&buckboost_control,aData);
+		}
+		default:
+		{
+			
+		}break;
+	}
+}
 ```
 
