@@ -14,6 +14,10 @@ Email：lds947003754@outlook.com
 
 ![功率板](Images/功率板.png)
 
+### 组合渲染图像
+
+![组合渲染图](Images/组合渲染图.png)
+
 ## 1.超级电容硬件说明
 
 1. 使用4Buckboost电路，实现升降压控制。
