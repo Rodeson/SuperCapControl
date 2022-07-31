@@ -16,7 +16,13 @@ Email：lds947003754@outlook.com
 
 ### 组合渲染图像
 
-![组合渲染图](Images/组合渲染图.png)
+控制板功率板
+
+![SuperCapPCB](Images/SuperCapPCB.png)
+
+电容组
+
+![capacitor](Images/capacitor.png)
 
 ## 1.超级电容硬件说明
 
